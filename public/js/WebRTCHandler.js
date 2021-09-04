@@ -6,11 +6,17 @@ import * as store from "./store.js";
 let connectedUserDetails;
 let peerConection;
 let dataChannel;
+let turnServers = [];
 
 const defaultConstraints = {
   audio: true,
-  video: false,
+  video: true,
 };
+
+
+export const setTURNServers = (servers) =>{
+  turnServers = servers
+}
 
 const configuration = {
   iceServers: [
@@ -37,6 +43,17 @@ export const getLocalPreview = () => {
 };
 
 const createPeerConnection = () => {
+
+  const configuration = {
+    iceServers: [...turnServers,
+      {
+        urls: "stun:stun.lund1.de:3478",
+      },
+    ],
+    iceTransportPolicy:'relay'
+  };   
+  
+
   peerConection = new RTCPeerConnection(configuration);
 
   dataChannel = peerConection.createDataChannel("chat");

@@ -2,16 +2,28 @@ const express = require("express");
 const http = require("http");
 
 const PORT = process.env.PORT || 3000;
-const path = require('path')
+const path = require('path');
+const twilio = require("twilio");
+const { sid, authToken } = require("./config");
 const app = express();
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 
 app.use(express.static(path.join(__dirname, '/public')));
 
+
+
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
+
+
+app.get('/api/get-turn-credentials',(req,res)=>{
+  const client = twilio(sid,authToken)
+
+  client.tokens.create().then((token )=>res.send({token})).catch((err)=>console.log(err));
+
+})
 
 let connectedPeers = [];
 
