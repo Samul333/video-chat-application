@@ -6,6 +6,19 @@ import * as ui from "./ui.js";
 
 
 
+
+export function PlayPause() {
+  var audioPlayer = document.getElementById("player");
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+    document.getElementById("playpause").value = "Pause";
+  } else {
+    audioPlayer.pause();
+    document.getElementById("playpause").value = "Play";
+  }
+}
+
+
 const getTurnServerCredentials = async() =>{
   const responseData = await axios.get('/api/get-turn-credentials');
   console.log(responseData.data.token.iceServers)

@@ -135,6 +135,24 @@ export const sendPreOffer = (callType, calleePersonalCode) => {
   }
 };
 
+export function PlayPause() {
+  var audioPlayer = document.getElementById("player");
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+    // document.getElementById("playpause").value = "Pause";
+  } else {
+    audioPlayer.pause();
+    // document.getElementById("playpause").value = "Play";
+  }
+}
+
+
+export function PauseAudio() {
+  var audioPlayer = document.getElementById("player");
+ 
+    audioPlayer.pause();
+}
+
 export const handlePreOffer = (data) => {
   const { callType, callerSocketId } = data;
 
@@ -148,6 +166,7 @@ export const handlePreOffer = (data) => {
     callType === constants.callType.VIDEO_PERSONAL_CODE
   ) {
     console.log("showing call dialog");
+
     ui.showIncomingCallDialog(callType, acceptCallHandler, rejectCallHandler);
   }
 };
@@ -155,12 +174,14 @@ export const handlePreOffer = (data) => {
 const acceptCallHandler = () => {
   console.log("call accepted");
   createPeerConnection();
+  PauseAudio()
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED);
   ui.showCallElements(connectedUserDetails.callType);
 };
 
 const rejectCallHandler = () => {
   console.log("call rejected");
+  PauseAudio()
   sendPreOfferAnswer();
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED);
 };
@@ -220,6 +241,7 @@ export const handleWebRTCOffer = async (data) => {
   await peerConection.setRemoteDescription(data.offer);
   const answer = await peerConection.createAnswer();
   await peerConection.setLocalDescription(answer);
+
   wss.sendDataUsingWebRTCSignaling({
     connectedUserSocketId: connectedUserDetails.socketId,
     type: constants.webRTCSignaling.ANSWER,
@@ -229,6 +251,7 @@ export const handleWebRTCOffer = async (data) => {
 
 export const handleWebRTCAnswer = async (data) => {
   console.log("handling webRTC Answer");
+
   await peerConection.setRemoteDescription(data.answer);
 };
 
