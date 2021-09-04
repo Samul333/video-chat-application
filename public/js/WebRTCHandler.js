@@ -18,7 +18,10 @@ const configuration = {
       urls: "stun:stun.l.google.com:13902",
     },
   ],
-};
+};   
+
+
+
 
 export const getLocalPreview = () => {
   navigator.mediaDevices
