@@ -10,10 +10,7 @@ let turnServers = [];
 
 const defaultConstraints = {
   audio: true,
-  video: {
-    width: { max: 1280},
-    height: { max: 720}
-  }
+  video: false
 };
 
 
