@@ -9,7 +9,16 @@ let dataChannel;
 let turnServers = [];
 
 const defaultConstraints = {
-  audio: true,
+  audio: {
+    autoGainControl: false,
+    channelCount: 2,
+    echoCancellation: false,
+    latency: 0,
+    noiseSuppression: true,
+    sampleRate: 48000,
+    sampleSize: 16,
+    volume: 1.0
+  },
   video: true
 };
 
@@ -35,6 +44,7 @@ export const getLocalPreview = () => {
     .then((stream) => {
       ui.updateLocalVideo(stream);
       store.setLocalStream(stream);
+
 
     })
     .catch((err) => {
@@ -241,6 +251,7 @@ const sendWebRTCOffer = async () => {
 export const handleWebRTCOffer = async (data) => {
   await peerConection.setRemoteDescription(data.offer);
   const answer = await peerConection.createAnswer();
+  answer.sdp = answer.sdp.replace('useinbandfec=1', 'useinbandfec=1; stereo=1; maxaveragebitrate=510000');
   await peerConection.setLocalDescription(answer);
 
   wss.sendDataUsingWebRTCSignaling({
