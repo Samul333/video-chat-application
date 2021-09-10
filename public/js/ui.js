@@ -145,7 +145,6 @@ const cameraOffImgSrc = "./utils/images/cameraOff.png";
 
 export const updateCameraButton = (cameraActive) => {
   const cameraButtonImage = document.getElementById("camera_button_image");
-  debugger;
   cameraButtonImage.src = cameraActive ? cameraOffImgSrc : cameraOnImgSrc;
 };
 

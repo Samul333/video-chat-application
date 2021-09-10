@@ -10,7 +10,7 @@ let turnServers = [];
 
 const defaultConstraints = {
   audio: true,
-  video: false
+  video: true
 };
 
 
@@ -35,6 +35,7 @@ export const getLocalPreview = () => {
     .then((stream) => {
       ui.updateLocalVideo(stream);
       store.setLocalStream(stream);
+
     })
     .catch((err) => {
       console.log("error occured when trying to get an access to camera");
@@ -223,7 +224,7 @@ export const handlePreOfferAnswer = (data) => {
     ui.showCallElements(connectedUserDetails.callType);
     createPeerConnection();
     sendWebRTCOffer();
-    ui.turnOffCamera();
+
   }
 };
 
