@@ -8,6 +8,7 @@ let peerConection;
 let dataChannel;
 let turnServers = []
 
+
 const defaultConstraints = {
   audio: true,
   video: true,
