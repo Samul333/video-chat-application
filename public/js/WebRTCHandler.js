@@ -36,6 +36,25 @@ export const getLocalPreview = () => {
     });
 };
 
+
+export function PlayPause() {
+  var audioPlayer = document.getElementById("player");
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+    // document.getElementById("playpause").value = "Pause";
+  } else {
+    audioPlayer.pause();
+    // document.getElementById("playpause").value = "Play";
+  }
+}
+
+
+export function PauseAudio() {
+  var audioPlayer = document.getElementById("player");
+ 
+    audioPlayer.pause();
+}
+
 const createPeerConnection = () => {
 
   const configuration = {
@@ -175,12 +194,14 @@ export const handlePreOffer = (data) => {
 
 const acceptCallHandler = () => {
   createPeerConnection();
+  PauseAudio()
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED);
   ui.showCallElements(connectedUserDetails.callType);
 };
 
 const rejectCallHandler = () => {
   sendPreOfferAnswer();
+  PauseAudio()
   setIncomingCallsAvailable();
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED);
 };

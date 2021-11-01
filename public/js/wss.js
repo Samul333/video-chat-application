@@ -15,6 +15,7 @@ export const registerSocketEvents = (socket) => {
   });
 
   socket.on("pre-offer", (data) => {
+    webRTCHandler.PlayPause();
     webRTCHandler.handlePreOffer(data);
   });
 
